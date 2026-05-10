@@ -21,12 +21,15 @@ form.addEventListener("submit",async (e) => {
     })
     });
 
-    if (resposta.ok){
-        window.location.href = "/index.html";
-    }
-
     const resultado = await resposta.json()
+    if (resposta.ok){
+        window.location.replace("/index.html");
+    }
+    else{
+        console.log(resultado)
+    }
+    
 
-    console.log(resultado)
+    
 
 })

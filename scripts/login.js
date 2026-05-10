@@ -18,12 +18,15 @@ form.addEventListener("submit",async (e) => {
       "Content-Type": "application/x-www-form-urlencoded"
     },
     body: params
-
     });
 
-
-    const resultado = await resposta.json()
-
-    console.log(resultado)
+    const info = await resposta.json()
+    if (resposta.ok){
+      localStorage.setItem("token",info.access_token)
+      window.location.href = "/dashboard.html";
+    }
+    else{
+      console.log(info)
+    }
 
 })
