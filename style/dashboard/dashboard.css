@@ -1,86 +1,85 @@
 :root {
-  --bg:      #D6DDE6;
-  --surface: #E2E8F0;
-  --text:    #0F172A;
-  --primary: #1E40AF;
-  --accent:  #0EA5E9;
-  --muted:   #64748B;
-  --border:  #C4CDD8;
+  --bg:      #D9DCE3;  /* um grau a mais */
+  --surface: #E8EBF0;  /* acompanha o bg */
+  --border:  #C4C9D4;
+  --text:    #111827;
+  --primary: #2563EB;
+  --accent:  #6366F1;
+  --muted:   #6B7280;
+
 }
 
 [data-theme="dark"] {
-  --bg:      #0A0F1E;
-  --surface: #111827;
+  --bg:      #0F1117;
+  --surface: #1A1D27;
   --text:    #F9FAFB;
-  --primary: #2563EB;  
-  --accent:  #10B981;
-  --muted:   #6B7280;
+  --primary: #3B82F6;
+  --accent:  #818CF8;
+  --muted:   #9CA3AF;
   --border:  #1F2937;
 }
 
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "DM Sans", sans-serif;;
-}
-
-.Dashboard{
-    display: flex;
-    height: 100vh;
-}
-
-.sidebar {
-  width: 250px;
-  background: var(--surface);
+#sidebar {
+  background-color: var(--surface);
   border-right: 1px solid var(--border);
-  padding: 20px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
 }
 
-/* Menu */
-.menu {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 80%;
+#sidebar .nav-link {
+  color: var(--muted);
 }
 
-.menu a {
+#sidebar .nav-link:hover,
+#sidebar .nav-link.active {
+  color: var(--text);
+}
+
+.perfil{
   text-decoration: none;
   color: var(--text);
-  padding: 10px;
-  border-radius: 8px;
-  /* transition: background 0.2s; */
 }
 
-.menu a:hover {
-  background: var(--surface);
+.botao-logout{
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  color: #FFFFf2;
+  text-decoration: none;
+  border-radius: 10px;
+  background-color: var(--accent);
 }
 
-/* Item ativo */
-.menu .active {
-  background: var(--primary);
+#main{
+  background-color: var(--bg);
+}
+
+body {
+  background-color: var(--bg);
+  min-height: 100vh;
+  margin: 0;
+}
+
+.card{
+  background-color: var(--surface);
+  color: var(--text);
+  width: 240px;
+  height: 100px;
+}
+
+.card-title{
+  color: var(--muted);
+}
+
+
+#total{
   color: var(--text);
 }
 
-/* Conteúdo */
-.content {
-  flex: 1;
-  padding: 30px;
+#em_andamento{
+  color: var(--primary)
 }
 
-/* Botão logout */
-.logout {
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  background: var(--primary);
-  color: white;
-  cursor: pointer;
+#concluidas{
+  color: var(--accent);
 }

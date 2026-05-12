@@ -3,37 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="style/dashboard/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <title>Dashboard</title>
 </head>
 <body>
-    <main>
-        <div class="Dashboard">
-            <aside class="sidebar">
-                <div class="logo">
-                    <h2>TaskFlow</h2>
+    
+    <div class="d-flex" style="min-height: 100vh;">
+        <aside id="sidebar" class="d-flex flex-column p-3" style="width:240px; min-height: 100vh;" >
+            <div class="mb-4">
+                <span class="fw-bold fs-5">Task Flow</span>
+            </div>
+            
+            <!--Itens da sidebar -->
+            <nav class="flex-grow-1">
+                <ul class="nav flex-column gap-1">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Tarefas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Projetos</a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <!--Parte de baixo, onde fica o logout e perfil -->
+            <div class="mt-auto pt-3 border-top">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <div class="rounded-circle bg-secondary" style="width:32px; height:32px; margin-bottom: 50px;"></div>
+                    <span class="small" style="margin-bottom: 50px;"><a href="#" class="perfil">Kauã Dev</a></span>
                 </div>
-            
-                <nav class="menu">
-                    <a href="#" class="active">Dashboard</a>
-                    <a href="#">Tarefas</a>
-                    <a href="#">Perfil</a>
-                </nav>
-                <button class="logout">Sair</button>
-            </aside>
-        </div>
-        
-        <div class = "app">
-            
+                <a href="#" class="botao-logout" >Sair</a>
+            </div>
+        </aside>
+        <main class="flex-grow-1 p-4" id="main">
+            <div class="row" id="card_de_cima" style="margin-top: 10px;">                          <!--row aqui -->
+                <div class="col-3">                      <!-- col na div que envolve o card -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Total criadas</h5>
+                            <h3 class="card-text" id="total"> 10</h3>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Em andamento</h5>
+                            <h3 class="card-text" id="em_andamento">5</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Concluidas</h5>
+                            <h3 class="card-text" id="concluidas">5</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
 
 
-
-
-        </div>
+    </div>
         
         
-        
-    </main>
+    
 
     <script src="scripts/dashboard.js"> </script>
 </body>

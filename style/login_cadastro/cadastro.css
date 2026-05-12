@@ -11,25 +11,24 @@
 
 
 :root {
-   --bg:      #D6DDE6;
-  --surface: #E2E8F0;
-  --text:    #0F172A;
-  --primary: #1E40AF;
-  --accent:  #0EA5E9;
-  --muted:   #64748B;
-  --border:  #C4CDD8;
+  --bg:      #F5F7FA;
+  --surface: #FFFFFF;
+  --text:    #111827;
+  --primary: #2563EB;
+  --accent:  #6366F1;
+  --muted:   #6B7280;
+  --border:  #E5E7EB;
 }
 
 [data-theme="dark"] {
-  --bg: #0A0F1E;
-  --surface: #111827;
-  --text: #F9FAFB;
-  --primary: #2563EB;  /* mesmo! */
-  --accent: #10B981;
-  --muted: #6B7280;
-  --border: #1F2937;
+  --bg:      #0F1117;
+  --surface: #1A1D27;
+  --text:    #F9FAFB;
+  --primary: #3B82F6;
+  --accent:  #818CF8;
+  --muted:   #9CA3AF;
+  --border:  #1F2937;
 }
-
 
 body {
   background-color: var(--bg);
