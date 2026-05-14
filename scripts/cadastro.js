@@ -9,7 +9,7 @@ form.addEventListener("submit",async (e) => {
     const email = data.get("email");
     const password = data.get("senha");
 
-    const resposta = await fetch("http://localhost:8000/user/", {
+    const resposta = await fetch("http://127.0.0.1:8000/user/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

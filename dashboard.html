@@ -37,12 +37,96 @@
                     <div class="rounded-circle bg-secondary" style="width:32px; height:32px; margin-bottom: 50px;"></div>
                     <span class="small" style="margin-bottom: 50px;"><a href="#" class="perfil">Kauã Dev</a></span>
                 </div>
-                <a href="#" class="botao-logout" >Sair</a>
+                <a href="index.html" class="botao-logout" >Sair</a>
             </div>
         </aside>
         <main class="flex-grow-1 p-4" id="main">
-            <div class="row" id="card_de_cima" style="margin-top: 10px;">                          <!--row aqui -->
-                <div class="col-3">                      <!-- col na div que envolve o card -->
+            <button class="btn btn-primary" style="height: auto; width: auto;" id="nova-task" data-bs-toggle="modal" data-bs-target="#meuModal">Nova task</button>
+            
+            
+            <div class="modal fade" id="meuModal"> <!--Modal-->
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <!--Modal header-->
+                        <div class="modal-header">
+                            <h5 class="modal-title">Criar tarefa</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <!--Modal body-->
+                        <form id="formModal">
+                            <div class="modal-body">
+                                
+                                <!--
+                                title:str
+                                description: str | None = None
+                                priority: EnumPriority
+                                status: EnumStatus
+                                due_date: date | None = None-->
+
+                                <!--Nome da tarefa-->
+                                <div class="mb-3">
+                                    <label class="form-label">Nome da tarefa</label>
+                                    <input type="text" class="form-control" name="title" required>
+                                </div>
+                            
+                                 <!-- Descrição -->
+                                <div class="mb-3">
+                                    <label class="form-label">Descrição</label>
+                                    <textarea class="form-control" name="description"></textarea>
+                                </div>
+
+                                <!-- Status -->
+                                <div class="mb-3">
+                                    <label class="form-label">Status</label>
+                                    <select class="form-select" name="status">
+                                        <option value="pending">Pendente</option>
+                                        <option value="in_progress">Em andamento</option>
+                                        <option value="done">Concluída</option>
+                                    </select>
+                                </div>
+
+                                <!-- Prioridade -->
+                                <div class="mb-3">
+                                    <label class="form-label">Prioridade</label>
+                                    <select class="form-select" name="priority">
+                                        <option value="low">Baixa</option>
+                                        <option value="medium">Média</option>
+                                        <option value="high">Alta</option>
+                                    </select>
+                                </div>
+
+                                <!--Calendario-->
+                                <div class="mb-3">
+                                    <label class="form-label">Selecione o prazo(opcional)</label>
+                                    <input type="date" class="form-control" name="due_date" >
+                                </div>
+                                
+
+                            </div>
+
+                                <!--Modal footer-->
+                            <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        Cancelar
+                                    </button>
+                                    <button type="submit"  class="btn btn-primary">
+                                        Salvar
+                                    </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+
+
+
+
+            <div class="row" id="card_de_cima" style="margin-top:0px;">                          
+                
+                <div class="col-3">                      
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Total criadas</h5>
@@ -65,11 +149,14 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Concluidas</h5>
-                            <h3 class="card-text" id="concluidas">5</h3>
+                            <h3 class="card-text" id="concluidas"></h3>
                         </div>
                     </div>
                 </div>
             </div>
+        
+            
+        
         </main>
 
 

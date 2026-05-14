@@ -83,3 +83,11 @@ body {
 #concluidas{
   color: var(--accent);
 }
+
+.model-content{
+  background-color: var(--surface);
+}
+
+#nova-task{
+  margin-left: 91%;
+}
