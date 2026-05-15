@@ -61,10 +61,36 @@ body {
 }
 
 .card{
+  position: relative;
+  overflow: hidden;
+
   background-color: var(--surface);
   color: var(--text);
-  width: 240px;
+  width: 230px;
   height: 100px;
+}
+
+.card::before{
+  content: "";
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 4px;
+}
+
+.card-total::before{
+  background: var(--surface);
+}
+
+.card-andamento::before{
+  background: var(--primary);
+}
+
+.card-concluida::before{
+  background: var(--accent);
 }
 
 .card-title{
@@ -89,5 +115,21 @@ body {
 }
 
 #nova-task{
-  margin-left: 91%;
+  margin-left: 90%;
+}
+
+.card-unico{
+  display: flex;
+  padding: 15px; 
+  background-color: var(--surface);
+  border-radius: 20px;
+  width: 80%;
+  margin-top:0px;
+  margin-right: 0px;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+#card-de-baixo{
+  margin-top: 30px;
 }

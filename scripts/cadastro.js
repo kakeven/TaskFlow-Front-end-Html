@@ -1,3 +1,5 @@
+import { API_BASE_URL } from "./config.js";
+
 const form = document.getElementById("formIDcadastro")
 
 form.addEventListener("submit",async (e) => {
@@ -9,7 +11,7 @@ form.addEventListener("submit",async (e) => {
     const email = data.get("email");
     const password = data.get("senha");
 
-    const resposta = await fetch("http://127.0.0.1:8000/user/", {
+    const resposta = await fetch(`${API_BASE_URL}/user/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
