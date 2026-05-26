@@ -11,13 +11,14 @@
 
 
 :root {
-  --bg:      #F5F7FA;
-  --surface: #FFFFFF;
+  --bg:      #D9DCE3;  /* um grau a mais */
+  --surface: #E8EBF0;  /* acompanha o bg */
+  --border:  #C4C9D4;
   --text:    #111827;
   --primary: #2563EB;
   --accent:  #6366F1;
   --muted:   #6B7280;
-  --border:  #E5E7EB;
+
 }
 
 [data-theme="dark"] {

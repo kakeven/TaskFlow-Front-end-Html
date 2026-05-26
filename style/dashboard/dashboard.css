@@ -6,7 +6,18 @@
   --primary: #2563EB;
   --accent:  #6366F1;
   --muted:   #6B7280;
+  --priority-high:   #DC2626;
+  --priority-medium: #D97706;
+  --priority-low:    #16A34A;
 
+ --badge-pending-bg:   #FEF9C3;
+  --badge-pending-text: #854D0E;
+
+  --badge-progress-bg:  #DBEAFE;
+  --badge-progress-text:#1E40AF;
+
+  --badge-done-bg:      #DCFCE7;
+  --badge-done-text:    #14532D;
 }
 
 [data-theme="dark"] {
@@ -17,12 +28,35 @@
   --accent:  #818CF8;
   --muted:   #9CA3AF;
   --border:  #1F2937;
+  --priority-high:   #F87171;
+  --priority-medium: #FCD34D;
+  --priority-low:    #4ADE80;
+
+  --badge-pending-bg:   #713F12;
+  --badge-pending-text: #FEF08A;
+
+  --badge-progress-bg:  #1E3A5F;
+  --badge-progress-text:#93C5FD;
+
+  --badge-done-bg:      #166534;
+  --badge-done-text:    #DCFCE7;
+  
 }
 
 
 #sidebar {
   background-color: var(--surface);
   border-right: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width:240px;
+}
+
+#trocar-tema{
+  border-radius: 10px;
+  border-color: var(--surface);
+  background-color: var(--surface);
 }
 
 #sidebar .nav-link {
@@ -44,7 +78,7 @@
   width: 100%;
   text-align: center;
   padding: 10px 0;
-  color: #FFFFf2;
+  color: var(--text);
   text-decoration: none;
   border-radius: 10px;
   background-color: var(--accent);
@@ -58,6 +92,7 @@ body {
   background-color: var(--bg);
   min-height: 100vh;
   margin: 0;
+  color: var(--text);
 }
 
 .card{
@@ -115,7 +150,10 @@ body {
 }
 
 #nova-task{
-  margin-left: 90%;
+  margin-left: 0%;
+  display: block;
+  margin-left: auto;
+  margin-bottom: 10px ;
 }
 
 .card-unico{
@@ -128,8 +166,62 @@ body {
   margin-right: 0px;
   justify-content: space-between;
   margin-bottom: 10px;
+  flex-direction: row;
+  align-items: center;
 }
 
 #card-de-baixo{
   margin-top: 30px;
+}
+
+@media (max-width: 767px){
+  #sidebar{display: none;}
+  #main{width: 100%;}
+}
+
+#card-de-cima{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+#card-de-cima .col-3 {
+  flex: 1 1 160px;
+}
+
+.card{
+  width: 100%;
+}
+.card-unico {
+  border-left: 4px solid transparent; /* já deixa o espaço reservado */
+}
+
+.prioridade-high   { border-left-color: var(--priority-high) }
+.prioridade-medium { border-left-color: var(--priority-medium) }
+.prioridade-low    { border-left-color: var(--priority-low) }
+
+
+.card-status {
+  padding: 8px 12px;
+  background-color: var(--badge-bg);
+  color: var(--badge-text);
+  border-radius: 100px;
+}
+
+.status-pending  { background-color: var(--badge-pending-bg);  color: var(--badge-pending-text); }
+.status-progress { background-color: var(--badge-progress-bg); color: var(--badge-progress-text); }
+.status-done     { background-color: var(--badge-done-bg);     color: var(--badge-done-text); }
+
+
+
+.projeto-task{
+  color: var(--muted);
+  border: 1px solid var(--muted);        /* borda sólida */
+  border-radius: 5px;
+  margin-top: 8px;
+  padding-right: 4px;
+  padding-left: 4px;
+  margin-left: 24px; 
+  font-size: 10px;
+  display: inline-block;
 }
