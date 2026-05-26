@@ -1,4 +1,4 @@
-const ambiente_dev = true;
+const ambiente_dev = false;
 
 let API_BASE_URL;
 
