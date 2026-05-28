@@ -32,8 +32,8 @@
             <!--Parte de baixo, onde fica o logout e perfil -->
             <div class="mt-auto pt-3 border-top">
                 <div class="d-flex align-items-center gap-2 mb-2">
-                    <div class="rounded-circle bg-secondary" style="width:32px; height:32px; margin-bottom: 50px;"></div>
-                    <span class="small" style="margin-bottom: 50px;"><a href="#" class="perfil">Kauã Dev</a></span>
+                    <img src="assets/do-utilizador.png" style="width:36px; height:36px; border-radius:50%; object-fit:cover; margin-bottom:50px;">
+                    <span class="small" style="margin-bottom: 50px;"><a class="perfil" id="perfil_"></a></span>
                     
                 </div>
                 <a href="index.html" class="botao-logout" >Sair</a>
@@ -100,7 +100,7 @@
                                 <div class="mb-3">
                                     <label class="form-label">Projetos</label>
                                     <select id="select-project" class="form-select" name="project_id">
-                                        
+                                        <option value="">Nenhum</option> 
                                     </select>
                                 </div>
 
@@ -166,7 +166,13 @@
             <!--Card de baixo(gerados no js)-->
             <div class="d-flex flex-column" id="card-de-baixo">
             </div>
-        
+            
+            <div id="context-menu">
+                    <ul>
+                        <li id="btn-editar-task">✏️ Editar</li>
+                        <li id="btn-excluir-task">🗑️ Excluir</li>
+                    </ul>
+                </div>
         </main>
 
 

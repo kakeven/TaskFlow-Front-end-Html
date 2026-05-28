@@ -117,3 +117,10 @@ button[type="submit"]:hover {
   font-size: 14px;
   text-align: center;
 }
+
+.erro-msg {
+  color: #e53e3e;
+  font-size: 13px;
+  text-align: center;
+  margin-top: 10px;
+}

@@ -69,6 +69,7 @@
 .perfil {
   text-decoration: none;
   color: var(--text);
+  user-select: none;
 }
 
 .botao-logout {
@@ -302,3 +303,29 @@ body {
   cursor: pointer;
   flex: 1;
 }
+
+#context-menu {
+  display: none;
+  position: fixed;
+  background: var(--surface);
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.15);
+  z-index: 1000;
+}
+
+#context-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+}
+
+#context-menu li {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+#context-menu li:hover {
+  background: var(--bg)
+}
+

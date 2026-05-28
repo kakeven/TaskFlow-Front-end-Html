@@ -3,9 +3,21 @@ import { API_BASE_URL } from "./config.js";
 const btn = document.getElementById("trocar-tema");
 const token = localStorage.getItem("token");
 
+let editar_task = false
 if (!token){
     window.location.replace("/index.html")
 }
+async function colocarNome() {
+    const response = await fetch(`${API_BASE_URL}/user/me`, {
+    headers: { 'Authorization': `Bearer ${token}` }
+    })
+    const user = await response.json()
+    const nome = user.name
+    
+    document.getElementById('perfil_').innerHTML = nome 
+}
+
+colocarNome()
 
 if (localStorage.getItem("theme") === "dark") {
   document.documentElement.setAttribute("data-theme", "dark");
@@ -26,7 +38,7 @@ document.getElementById('tipo-importacao').addEventListener('change', function()
 });
 
 document.addEventListener("click",(e) => {
-    if(!e.target.closest("#painel-projeto") && !e.target.closest("#Modalprojeto") && !e.target.closest("#Modal-task") ){
+    if(!e.target.closest("#painel-projeto") && !e.target.closest("#Modalprojeto") && !e.target.closest("#Modal-task") && !e.target.closest("#context-menu") ){
         document.getElementById('painel-projeto').classList.add('d-none');
     }
 })
@@ -108,7 +120,17 @@ function renderPainel(projeto){
         </div>
     <div id="painel-tasks"></div>
     `;
-    
+    document.getElementById('painel-tasks').addEventListener('contextmenu', (e) => {
+    const task = e.target.closest('.painel-task-item');
+    if (!task) return;
+
+    e.preventDefault();
+    taskAlvo = task;
+
+    menu.style.display = 'block';
+    menu.style.left = e.clientX + 'px';
+    menu.style.top  = e.clientY + 'px';
+  });
 }
 
 async function renderTasks(projetoId) {
@@ -127,7 +149,13 @@ async function renderTasks(projetoId) {
     let html = '<h5>Em andamento</h5>';
     emAndamento.forEach(task => {
         html += `
-  <div class="painel-task-item prioridade-${task.priority}">
+  <div class="painel-task-item prioridade-${task.priority}" 
+        data-id="${task.id}"
+        data-title="${task.title}"
+        data-status="${task.status}"
+        data-priority="${task.priority}"
+        data-due_date="${task.due_date ?? ''}"
+        data-project_id="${task.project_id}">
     <input type="checkbox" id="check-${task.id}" ${task.status === 'done' ? 'checked' : ''}>
     <label for="check-${task.id}" ${task.status === 'done' ? 'style="text-decoration: line-through; opacity: 0.5;"' : ''}>
       ${task.title}
@@ -139,7 +167,13 @@ async function renderTasks(projetoId) {
     html += '<h5>Pendentes</h5>';
     pendentes.forEach(task => {
        html += `
-  <div class="painel-task-item prioridade-${task.priority}">
+  <div class="painel-task-item prioridade-${task.priority}"  
+        data-id="${task.id}"
+        data-title="${task.title}"
+        data-status="${task.status}"
+        data-priority="${task.priority}"
+        data-due_date="${task.due_date ?? ''}"
+        data-project_id="${task.project_id}">
     <input type="checkbox" id="check-${task.id}" ${task.status === 'done' ? 'checked' : ''}>
     <label for="check-${task.id}" ${task.status === 'done' ? 'style="text-decoration: line-through; opacity: 0.5;"' : ''}>
       ${task.title}
@@ -151,7 +185,13 @@ async function renderTasks(projetoId) {
     html += '<h5>Concluidas</h5>';
     concluidas.forEach(task=>{
        html += `
-  <div class="painel-task-item prioridade-${task.priority}">
+  <div class="painel-task-item prioridade-${task.priority}"  
+        data-id="${task.id}"
+        data-title="${task.title}"
+        data-status="${task.status}"
+        data-priority="${task.priority}"
+        data-due_date="${task.due_date ?? ''}"
+        data-project_id="${task.project_id}">
     <input type="checkbox" id="check-${task.id}" ${task.status === 'done' ? 'checked' : ''}>
     <label for="check-${task.id}" ${task.status === 'done' ? 'style="text-decoration: line-through; opacity: 0.5;"' : ''}>
       ${task.title}
@@ -190,9 +230,12 @@ async function renderTasks(projetoId) {
     const progresso = total_tamanho === 0 ? 0 : Math.round((concluidas_tamanho / total_tamanho) * 100);
 
     // pega a barra do card correspondente ao projeto
-    const card = document.querySelector(`[data-id="${projetoId}"]`);
-    const barra = card.querySelector('.progress-bar');
-    barra.style.width = `${progresso}%`;
+   
+    const card = document.querySelector(`#lista-projetos [data-id="${projetoId}"]`);
+    if (card) {
+        const barra = card.querySelector('.progress-bar');
+        if (barra) barra.style.width = `${progresso}%`;
+    }
 }
 
 //MUDAR TEMA
@@ -268,7 +311,7 @@ function criarCard(projeto) {
 }
 
 async function carregarProjetos() {
-  const token = localStorage.getItem('token');
+  
   
   const response = await fetch(`${API_BASE_URL}/project`, {
     headers: {
@@ -417,32 +460,52 @@ document.getElementById('lista-projetos').addEventListener('click', function(e) 
         }
         
     })
-document.getElementById("Modaltask").addEventListener("submit", async function(event) {
-    event.preventDefault();
 
-    const formData = new FormData(this);
-    const dados = Object.fromEntries(formData);
-    dados.due_date = dados.due_date || null;
 
-    try {
-        const response = await fetch(`${API_BASE_URL}/task/`, {
-            method: 'POST',
+
+const menu = document.getElementById('context-menu');
+let taskAlvo = null;
+
+
+// Fecha ao clicar fora
+document.addEventListener('click', () => {
+  menu.style.display = 'none';
+});
+
+document.getElementById('btn-editar-task').addEventListener('click', async () => {
+    const dataset = taskAlvo.dataset;
+
+
+    const form = document.getElementById("Modaltask");
+
+    // dados atuais do painel/card
+    form.title.value = dataset.title;
+    form.description.value = dataset.description;
+    form.status.value = dataset.status;
+    form.priority.value = dataset.priority;
+    form.due_date.value = dataset.due_date;
+
+    // abrir modal
+    const modal = new bootstrap.Modal(
+        document.getElementById("Modal-task")
+    );
+    editar_task = true
+    modal.show();
+});
+
+document.getElementById('btn-excluir-task').addEventListener('click',async () => {
+  const id = taskAlvo.dataset.id;
+  const response = await fetch(`${API_BASE_URL}/task/${taskAlvo.dataset.id}`, {
+            method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify(dados)
         });
-
-        if (response.ok) {
-            const modal = bootstrap.Modal.getInstance(document.getElementById("Modal-task"));
-            modal.hide();
-            renderTasks(dados.project_id); // atualiza o painel
+        if(response.ok){
+            renderTasks(taskAlvo.dataset.project_id)
         }
-    } catch (erro) {
-        console.log("erro:", erro);
-    }
-});
+    });
 
 document.getElementById("btn-importar-json").addEventListener("click", async () => {
     const tipoImportacao = document.getElementById("tipo-importacao").value;
@@ -481,6 +544,52 @@ document.getElementById("btn-importar-json").addEventListener("click", async () 
 
     bootstrap.Modal.getInstance(document.getElementById("Modal-task")).hide();
     renderTasks(projectId);
+});
+
+
+document.getElementById("Modaltask").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const formData = new FormData(this);
+    const dados = Object.fromEntries(formData);
+    dados.due_date = dados.due_date || null;
+    if(editar_task){
+        const response = await fetch(`${API_BASE_URL}/task/${taskAlvo.dataset.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(dados)
+        });
+
+        if (response.ok) {
+            const modal = bootstrap.Modal.getInstance(document.getElementById("Modal-task"));
+            modal.hide();
+            renderTasks(taskAlvo.dataset.project_id); // atualiza o painel
+        }
+        editar_task = false
+    }else{
+        try {
+        const response = await fetch(`${API_BASE_URL}/task/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(dados)
+        });
+
+        if (response.ok) {
+            const modal = bootstrap.Modal.getInstance(document.getElementById("Modal-task"));
+            modal.hide();
+            renderTasks(dados.project_id); // atualiza o painel
+        }
+    } catch (erro) {
+        console.log("erro:", erro);
+    }
+    }
+    
 });
 carregarProjetos()
 

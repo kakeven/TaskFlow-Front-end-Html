@@ -1,7 +1,11 @@
 import { API_BASE_URL } from "./config.js";
 
 const form = document.getElementById("formIDlogin")
+const erroMsg = document.getElementById("erroLogin");
 
+form.addEventListener("input", () => {
+  erroMsg.style.display = "none";
+});
 form.addEventListener("submit",async (e) => {
     e.preventDefault();
 
@@ -28,7 +32,7 @@ form.addEventListener("submit",async (e) => {
       window.location.href = "/dashboard.html";
     }
     else{
-      console.log(info)
+      erroMsg.style.display = "block";
     }
 
 })

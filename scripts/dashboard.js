@@ -1,12 +1,24 @@
 import { API_BASE_URL } from "./config.js";
 
 const token = localStorage.getItem("token")
-
+let editar_task = false
 
 
 if (!token){
     window.location.replace("/index.html")
 }
+
+async function colocarNome() {
+    const response = await fetch(`${API_BASE_URL}/user/me`, {
+    headers: { 'Authorization': `Bearer ${token}` }
+    })
+    const user = await response.json()
+    const nome = user.name
+    
+    document.getElementById('perfil_').innerHTML = nome 
+}
+
+colocarNome()
 
 async function atualizar_card_cima() {
     const res = await fetch(`${API_BASE_URL}/task/`,{
@@ -46,6 +58,13 @@ async function criar_secao(titulo,task){
         const card = document.createElement("div")
         card.className = 'card-unico'
         card.classList.add(`prioridade-${task.priority}`)
+        card.dataset.id = task.id
+        card.dataset.title = task.title
+        card.dataset.status = task.status
+        card.dataset.priority = task.priority
+        card.dataset.due_date = task.due_date ?? ''
+        card.dataset.project_id = task.project_id ?? ''
+        
         const statusClass = {
             pending: 'status-pending',
             in_progress: 'status-progress',
@@ -90,7 +109,13 @@ async function criar_secao(titulo,task){
         }
        
         container.appendChild(card)
-        
+        card.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            taskAlvo = card;
+            menu.style.display = 'block';
+            menu.style.left = e.clientX + 'px';
+            menu.style.top  = e.clientY + 'px';
+        });
         const checkbox = document.getElementById(`check-${task.id}`)
 
         if(checkbox){
@@ -140,6 +165,7 @@ async function criar_secao(titulo,task){
     });
 
 }
+
 async function renderizar_projeto_na_cricao_task(){
     const select = document.getElementById('select-project');
     
@@ -157,7 +183,7 @@ async function renderizar_projeto_na_cricao_task(){
 
     const data = await res.json()
     
-    select.innerHTML = '<option value="Nenhum">Nenhum</option>' + data.map(project => 
+    select.innerHTML = '<option value="">Nenhum</option>' + data.map(project => 
     `<option value="${project.id}">${project.title}</option>`
     ).join('');
     
@@ -207,9 +233,38 @@ form.addEventListener("submit",async function(event){
 
     const formData = new FormData(form)
     const dados = Object.fromEntries(formData)
+    
     dados.due_date = dados.due_date || null;
     dados.project_id = dados.project_id ? parseInt(dados.project_id) : null;
-    try{
+    
+    
+    if (editar_task){
+        try{
+        const response = await fetch(`${API_BASE_URL}/task/${taskAlvo.dataset.id}`,{
+            method : 'PATCH',
+            headers : {
+                'Content-type':'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(dados)
+        
+            
+        })
+        const resultado = await response.json()
+        
+        if(response.ok){
+            atualizar_card_cima();
+            renderizar_task();
+        }
+    }
+
+    catch (erro){
+        console.log("erro na requisicao:", erro)
+    }
+    editar_task = false
+    }
+    else{
+        try{
         const response = await fetch(`${API_BASE_URL}/task/`,{
             method : 'POST',
             headers : {
@@ -231,6 +286,8 @@ form.addEventListener("submit",async function(event){
     catch (erro){
         console.log("erro na requisicao:", erro)
     }
+    }
+    
 })
 
 
@@ -257,6 +314,50 @@ btn.addEventListener("click",()=>{
     
 })
 
+const menu = document.getElementById('context-menu');
+let taskAlvo = null;
+
+
+// Fecha ao clicar fora
+document.addEventListener('click', () => {
+  menu.style.display = 'none';
+});
+
+document.getElementById('btn-editar-task').addEventListener('click', async () => {
+    const dataset = taskAlvo.dataset;
+
+
+    const form = document.getElementById("formModal");
+    await renderizar_projeto_na_cricao_task(); // carrega os projetos no select
+    // dados atuais do painel/card
+    form.title.value = dataset.title;
+    form.description.value = dataset.description;
+    form.status.value = dataset.status;
+    form.priority.value = dataset.priority;
+    form.due_date.value = dataset.due_date;
+    document.getElementById('select-project').value = dataset.project_id ?? ''; // seta o projeto atual
+
+    // abrir modal
+    const modal = new bootstrap.Modal(
+        document.getElementById("meuModal")
+    );
+    editar_task = true
+    modal.show();
+});
+
+document.getElementById('btn-excluir-task').addEventListener('click',async () => {
+  const id = taskAlvo.dataset.id;
+  const response = await fetch(`${API_BASE_URL}/task/${taskAlvo.dataset.id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        });
+        if(response.ok){
+            renderizar_task()
+        }
+    });
 
 atualizar_card_cima();
 renderizar_task();
