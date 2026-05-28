@@ -29,7 +29,7 @@ form.addEventListener("submit",async (e) => {
     const info = await resposta.json()
     if (resposta.ok){
       localStorage.setItem("token",info.access_token)
-      window.location.href = "/dashboard.html";
+      window.location.href = "dashboard.html";
     }
     else{
       erroMsg.style.display = "block";

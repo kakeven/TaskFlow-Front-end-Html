@@ -29,7 +29,7 @@ form.addEventListener("submit",async (e) => {
 
     const resultado = await resposta.json()
     if (resposta.ok){
-        window.location.replace("/index.html");
+        window.location.replace("index.html");
     }
     else{
         erroMsg.style.display = "block";
